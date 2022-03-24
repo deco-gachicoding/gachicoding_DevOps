@@ -1,10 +1,22 @@
-# S3 bucket for backend
-resource "aws_s3_bucket" "tfstate" {
-  bucket = "tf-gachicoding-tfstate"
+terraform {
+  required_version = "= 1.1.7"
+
+  backend "s3" {
+    bucket         = "tf-gachicoding-tfstate" # 자신의 버킷으로 수정
+    key            = "terraform/codebuild/terraform.tfstate" # 원하는 키 사용
+    region         = "ap-northeast-2"
+    encrypt        = true
+    dynamodb_table = "terraform-lock" # 앞에서 생성한 DynamoDB 이름
+  }
 }
 
+# S3 bucket for backend
+#resource "aws_s3_bucket" "tfstate" {
+#  bucket = "tf-gachicoding-tfstate"
+#}
+
 resource "aws_s3_bucket_versioning" "tfstate" {
-  bucket = aws_s3_bucket.tfstate.id
+  bucket = "tf-gachicoding-tfstate"
   versioning_configuration {
     status = "Enabled"
   }
