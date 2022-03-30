@@ -1,10 +1,10 @@
 
 resource "aws_instance" "nginx_instance_1" {
-  ami = var.base_ami
-  instance_type = "t3.micro"
-  subnet_id = aws_subnet.public_subnet.id
-  key_name = "gachicoding-front-key"
-  vpc_security_group_ids = ["${aws_security_group.webserversg.id}"]
+  ami                     = var.base_ami
+  instance_type           = "t3.micro"
+  subnet_id               = aws_subnet.public_subnet.id
+  key_name                = "gachicoding-front-key"
+  vpc_security_group_ids  = ["${aws_security_group.webserversg.id}"]
 
   tags = {
     Name = "gachicoding_front_lb1"
