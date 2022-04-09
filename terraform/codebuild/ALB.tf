@@ -1,108 +1,93 @@
-resource "aws_alb" "frontend" {
-  name            = "alb-front-gachi"
-  internal        = false
-  security_groups = [aws_security_group.webserversg.id]
-  subnets         = [aws_subnet.public_subnet.id]
-
-  access_logs {
-    bucket  = aws_s3_bucket.alb.id
-    prefix  = "frontend-alb"
-    enabled = true
-  }
-
-  tags = {
-    Name = "ALB Gachi front"
-  }
-
-  lifecycle { create_before_destroy = true }
-}
-
-resource "aws_alb_target_group" "frontend" {
-  name     = "frontend-target-group"
-  port     = 8080
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.vpc.id
-
-  health_check {
-    interval            = 30
-    path                = "/ping"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-  }
-
-  tags = { Name = "Frontend Target Group" }
-}
-
-#resource "aws_alb_target_group" "static" {
-#  name     = "static-target-group"
-#  port     = 8080
+#resource "aws_subnet" "lb-Subnet-1" {
+#  vpc_id     = aws_vpc.vpc.id
+#  cidr_block = "10.0.2.0/24"
+#  availability_zone = "ap-northeast-2a"
+#
+#  tags = {
+#    Name    = "lb-Subnet"
+#    Service = "gachi"
+#  }
+#}
+#
+#resource "aws_subnet" "lb-Subnet-2" {
+#  vpc_id     = aws_vpc.vpc.id
+#  cidr_block = "10.0.3.0/24"
+#  availability_zone = "ap-northeast-2b"
+#
+#  tags = {
+#    Name    = "lb-Subnet"
+#    Service = "gachi"
+#  }
+#}
+#
+#resource "aws_lb" "gachi-front-lb" {
+#  name               = "gachi-front-lb"
+#  internal           = false
+#  load_balancer_type = "application"
+#  security_groups    = [aws_security_group.gachi-front-lb-sg.id]
+#  subnets            = [aws_subnet.lb-Subnet-1.id, aws_subnet.lb-Subnet-2.id]
+#
+#  enable_deletion_protection = true
+#}
+#
+#resource "aws_lb_target_group" "gachi-lb-tg" {
+#  name     = "gachi-lb-tg"
+#  port     = 80
 #  protocol = "HTTP"
 #  vpc_id   = aws_vpc.vpc.id
+#}
 #
-#  health_check {
-#    interval            = 30
-#    path                = "/ping"
-#    healthy_threshold   = 3
-#    unhealthy_threshold = 3
+#resource "aws_lb_target_group_attachment" "gachi-front-tg-att01" {
+#  target_group_arn = aws_lb_target_group.gachi-lb-tg.arn
+#  target_id = aws_instance.nginx_instance_1.id
+#  port = 80
+#}
+#
+#resource "aws_lb_target_group_attachment" "gachi-front-tg-att02" {
+#  target_group_arn = aws_lb_target_group.gachi-lb-tg.arn
+#  target_id = aws_instance.nginx_instance_2.id
+#  port = 80
+#}
+#
+#resource "aws_lb_listener" "gachi-front-alb-listen" {
+#  load_balancer_arn = aws_lb.gachi-front-lb.arn
+#  port = 80
+#  protocol = "HTTP"
+#
+#  default_action {
+#    type = "forward"
+#    target_group_arn = aws_lb_target_group.gachi-lb-tg.arn
+#  }
+#}
+#
+#resource "aws_security_group" "gachi-front-lb-sg" {
+#  name        = "gachi-front-lb-sg"
+#  vpc_id      = aws_vpc.vpc.id
+#
+#  ingress {
+#    from_port   = 80
+#    to_port     = 80
+#    protocol    = "tcp"
+#    cidr_blocks = ["0.0.0.0/0"]
 #  }
 #
-#  tags { Name = "Static Target Group" }
-#}
-
-resource "aws_alb_target_group_attachment" "frontend" {
-  target_group_arn = aws_alb_target_group.frontend.arn
-  target_id        = "${aws_instance.nginx_instance_1.id},${aws_instance.nginx_instance_2.id}"
-  port             = 8080
-}
-
-#resource "aws_alb_target_group_attachment" "static" {
-#  target_group_arn = "${aws_alb_target_group.static.arn}"
-#  target_id        = "${aws_instance.static.id}"
-#  port             = 8080
-#}
-
-data "aws_acm_certificate" "gachicoding_dot_com"   {
-  domain   = "*.gachicoding.com."
-  statuses = ["ISSUED"]
-}
-
-resource "aws_alb_listener" "https" {
-  load_balancer_arn = aws_alb.frontend.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = data.aws_acm_certificate.gachicoding_dot_com.arn
-
-  default_action {
-    target_group_arn = aws_alb_target_group.frontend.arn
-    type             = "forward"
-  }
-}
-
-resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_alb.frontend.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    target_group_arn = aws_alb_target_group.frontend.arn
-    type             = "forward"
-  }
-}
-
-#static
-
-#resource "aws_alb_listener_rule" "static" {
-#  listener_arn = "${aws_alb_listener.https.arn}"
-#  priority     = 100
-#
-#  action {
-#    type             = "forward"
-#    target_group_arn = "${aws_alb_target_group.static.arn}"
+#  ingress {
+#    from_port   = 443
+#    to_port     = 443
+#    protocol    = "tcp"
+#    cidr_blocks = ["0.0.0.0/0"]
 #  }
 #
-#  condition {
-#    field  = "path-pattern"
-#    values = ["/static/*"]
+#  egress {
+#    from_port       = 0
+#    to_port         = 0
+#    protocol        = "-1"
+#    cidr_blocks     = ["0.0.0.0/0"]
+#    prefix_list_ids = []
+#  }
+#
+#  tags = {
+#    Name    = "gachi-FrontEnd-ALB-SG"
+#    Service = "gachi"
 #  }
 #}
