@@ -1,4 +1,5 @@
 variable "aws_region" {}
+variable "availability_zones" {}
 variable "base_ami" {}
 variable "alb_account_id" {}
 variable "targets" {
