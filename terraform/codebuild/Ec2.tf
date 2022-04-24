@@ -27,6 +27,21 @@ resource "aws_instance" "nginx_instance_2" {
   depends_on = ["aws_internet_gateway.igw"]
 }
 
+resource "aws_instance" "backend_test_instance" {
+  ami                     = var.base_ami
+  instance_type           = "t3.micro"
+  subnet_id               = aws_subnet.public_subnet.id
+  key_name                = "gachicoding-backend-test-key"
+  vpc_security_group_ids  = [aws_security_group.webserversg.id]
+
+  tags = {
+    Name = "gachicoding_backend_test"
+  }
+
+  depends_on = ["aws_internet_gateway.igw"]
+}
+
+
 resource "aws_security_group" "webserversg" {
   name        = "webserversg"
   description = "allow 22, 80"
