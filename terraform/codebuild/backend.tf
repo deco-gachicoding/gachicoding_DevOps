@@ -1,5 +1,5 @@
 terraform {
-  required_version = "= 1.1.7"
+  required_version = "= 1.1.8"
 
   backend "s3" {
     bucket         = "tf-gachicoding-tfstate" # 자신의 버킷으로 수정

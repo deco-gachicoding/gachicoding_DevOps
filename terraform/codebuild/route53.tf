@@ -1,4 +1,4 @@
-## AWS Route53 Zone
+# AWS Route53 Zone
 #resource "aws_route53_zone" "gachicoding_shop" {
 #  name = "gachicoding.shop"
 #}
@@ -12,7 +12,7 @@
 #
 #  records        = ["_3ae8176b66aa0557a690b0a954c47937.qvwhjqbvbg.acm-validations.aws."]
 #}
-
+#
 #resource "aws_route53_record" "frontend_A" {
 #  zone_id = aws_route53_zone.gachicoding_shop.zone_id
 #  name    = "gachicoding.shop"
