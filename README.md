@@ -46,7 +46,10 @@
 
 ### 테스트용 인프라 서버
 ![Gachi_testServer](https://user-images.githubusercontent.com/59479926/177695397-777fa871-d008-4e9e-b627-4b4e4e7ee1ab.png)
+---
 
+### Infra Ver 1.0
+![Gachi_Infra_V1 0 drawio](https://user-images.githubusercontent.com/59479926/180384108-3abff3c2-0dd9-403b-a683-9a8c60f62db0.png)
 
 ## 주요 변경사항
 
