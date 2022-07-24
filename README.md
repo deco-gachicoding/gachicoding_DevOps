@@ -51,6 +51,11 @@
 ### Infra Ver 1.0
 ![Gachi_Infra_V1 0 drawio](https://user-images.githubusercontent.com/59479926/180384108-3abff3c2-0dd9-403b-a683-9a8c60f62db0.png)
 
+--- 
+### 1차 협의후 인프라
+![Gachi_Infra_V1 1 1 drawio](https://user-images.githubusercontent.com/59479926/180629242-77b8d59f-a88c-4008-a032-43a8b06068ab.png)
+
+
 ## 주요 변경사항
 
 #### 2022.07.07 업데이트 
