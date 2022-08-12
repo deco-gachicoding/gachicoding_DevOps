@@ -60,6 +60,10 @@
 3. RDB서비스를 Paas에서 IaaS로 변경 (비용문제)
 4. CDN 서비스 추가 (프론트엔드의 HTTPS 배포) -> Resource 버킷의 경우 비용문제에 부딪혀 아직 고민중
 
+### 인프라 아키텍처 대한 간단한 설명 
+![Gachi_Infra_V1 1 1 drawio_text](https://user-images.githubusercontent.com/59479926/184301364-85d3d5d9-1ab5-4eb3-bfb0-38dd5459ba27.png)
+
+
 ## 주요 변경사항
 
 #### 2022.07.07 업데이트 
